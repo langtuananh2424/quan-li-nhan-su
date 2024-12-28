@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\NHANVIEN;
 use Illuminate\Http\Request;
+use App\Models\PHONGBAN;
+use App\Models\TRINHDOHOCVAN;
+use App\Models\CHUCVU;
 
 class NhanVienController extends Controller
 {
@@ -21,7 +24,10 @@ class NhanVienController extends Controller
      */
     public function create()
     {
-        //
+        $phongbans = PHONGBAN::all();
+        $chucvus = CHUCVU::all();
+        $tdhvs = TRINHDOHOCVAN::all();
+        return view('nhanviens.create', compact('phongbans', 'chucvus', 'tdhvs'));
     }
 
     /**
@@ -29,7 +35,39 @@ class NhanVienController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'HOTEN' => 'required|string|max:255',
+            'NGAYSINH' => 'required|date',
+            'GIOITINH' => 'required|in:Nam,Nữ,Khác',
+            'DIACHI' => 'required|string',
+            'SDT' => 'required|numeric',
+            'EMAIL' => 'required|email',
+            'MAPB' => 'required|exists:PHONGBAN,MAPB',
+            'MACV' => 'required|exists:CHUCVU,MACV',
+            'MATDHV' => 'required|exists:TRINHDOHOCVAN,MATDHV',
+            'BACLUONG' => 'required|exists:LUONG,BACLUONG',
+        ]);
+        if($request->hasFile('avatar')) {
+          $avatarPath = $request->file('avatar')->store('avatars', 'public');
+        } else {
+            $avatarPath = null;
+        }
+
+        NHANVIEN::create([
+            'HOTEN' => $request->HOTEN,
+            'NGAYSINH' => $request->NGAYSINH,
+            'GIOITINH' => $request->GIOITINH,
+            'DIACHI' => $request->DIACHI,
+            'SDT' => $request->SDT,
+            'EMAIL' => $request->EMAIL,
+            'MAPB' => $request->MAPB,
+            'MACV' => $request->MACV,
+            'MATDHV' => $request->MATDHV,
+            'BACLUONG' => $request->BACLUONG,
+            'avatar' => $avatarPath,
+        ]);
+
+        return redirect()->route('nhanviens.index');
     }
 
     /**

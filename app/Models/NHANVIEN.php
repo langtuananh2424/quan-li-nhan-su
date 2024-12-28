@@ -23,7 +23,8 @@ class NHANVIEN extends Model
         'MAPB',
         'MACV',
         'MATDHV',
-        'BACLUONG'
+        'BACLUONG',
+        'avatar'
     ];
 
     public function phongban() {
