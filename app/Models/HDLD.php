@@ -17,6 +17,6 @@ class HDLD extends Model
     ];
 
     public function nhanvien() {
-        return $this->hasMany(NHANVIEN::class, 'MANV', 'MANV');
+        return $this->belongsTo(NHANVIEN::class, 'MANV', 'MANV');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PHONGBAN;
 use Illuminate\Http\Request;
 
 class PhongBanController extends Controller
@@ -11,7 +12,8 @@ class PhongBanController extends Controller
      */
     public function index()
     {
-        //
+        $phongbans = PHONGBAN::all();
+        return view('phongbans.index', compact('phongbans'));
     }
 
     /**
@@ -19,7 +21,7 @@ class PhongBanController extends Controller
      */
     public function create()
     {
-        //
+        return view('phongbans.create');
     }
 
     /**
@@ -27,7 +29,12 @@ class PhongBanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'TENPB' => 'required'
+        ]);
+
+        PHONGBAN::create($request->all());
+        return redirect()->route('phongbans.index');
     }
 
     /**
@@ -43,7 +50,8 @@ class PhongBanController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $phongban = PHONGBAN::find($id);
+        return view('phongbans.edit', compact('phongban'));
     }
 
     /**
@@ -51,7 +59,12 @@ class PhongBanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'TENPB' => 'required'
+        ]);
+
+        PHONGBAN::find($id)->update($request->all());
+        return redirect()->route('phongbans.index');
     }
 
     /**
@@ -59,6 +72,6 @@ class PhongBanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        PHONGBAN::destroy($id);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TRINHDOHOCVAN;
 use Illuminate\Http\Request;
 
 class TrinhDoHocVanController extends Controller
@@ -11,7 +12,8 @@ class TrinhDoHocVanController extends Controller
      */
     public function index()
     {
-        //
+        $tdhvs = TRINHDOHOCVAN::all();
+        return view('trinhdohocvans.index', compact('tdhvs'));
     }
 
     /**
@@ -19,7 +21,7 @@ class TrinhDoHocVanController extends Controller
      */
     public function create()
     {
-        //
+        return view('trinhdohocvans.create');
     }
 
     /**
@@ -27,7 +29,12 @@ class TrinhDoHocVanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'TENTDHV' => 'required',
+            'CHUYENNGANH' => 'nullable',
+        ]);
+        TRINHDOHOCVAN::create($request->all());
+        return redirect()->route('trinhdohocvans.index');
     }
 
     /**
@@ -43,7 +50,8 @@ class TrinhDoHocVanController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $tdhv = TRINHDOHOCVAN::find($id);
+        return view('trinhdohocvans.edit', compact('tdhv'));
     }
 
     /**
@@ -51,7 +59,12 @@ class TrinhDoHocVanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'TENTDHV' => 'required',
+            'CHUYENNGANH' => 'nullable',
+        ]);
+        TRINHDOHOCVAN::find($id)->update($request->all());
+        return redirect()->route('trinhdohocvans.index');
     }
 
     /**
@@ -59,6 +72,7 @@ class TrinhDoHocVanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        TRINHDOHOCVAN::destroy($id);
+        return redirect()->route('trinhdohocvans.index');
     }
 }

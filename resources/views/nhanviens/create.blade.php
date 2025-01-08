@@ -5,12 +5,14 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
+                    @if(session(key:'success'))
+                        <div class="alert alert-success">{{session(key:'success')}}</div>
+                    @endif
                     <div class="card-header">{{ __('Tạo mới nhân viên') }}</div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('nhanviens.store') }}" enctype="multipart/form-data">
                             @csrf
-
                             <div class="form-group">
                                 <label for="avatar">{{ __('Ảnh đại diện') }}</label>
                                 <input type="file" class="form-control-file" id="avatar" name="avatar">

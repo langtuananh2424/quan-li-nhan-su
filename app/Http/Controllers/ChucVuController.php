@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CHUCVU;
 use Illuminate\Http\Request;
 
 class ChucVuController extends Controller
@@ -11,7 +12,8 @@ class ChucVuController extends Controller
      */
     public function index()
     {
-        //
+        $chucvus = ChucVu::all();
+        return view('chucvus.index', compact('chucvus'));
     }
 
     /**
@@ -19,7 +21,7 @@ class ChucVuController extends Controller
      */
     public function create()
     {
-        //
+        return view('chucvus.create');
     }
 
     /**
@@ -27,7 +29,11 @@ class ChucVuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'TENCV' => 'required',
+        ]);
+        CHUCVU::create($request->all());
+        return redirect()->route('chucvus.index');
     }
 
     /**
@@ -43,7 +49,8 @@ class ChucVuController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $chucvu = CHUCVU::find($id);
+        return view('chucvus.edit', compact('chucvu'));
     }
 
     /**
@@ -51,7 +58,11 @@ class ChucVuController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'TENCV' => 'required',
+        ]);
+        CHUCVU::find($id)->update($request->all());
+        return redirect()->route('chucvus.index');
     }
 
     /**
@@ -59,6 +70,7 @@ class ChucVuController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        CHUCVU::destroy($id);
+        return redirect()->route('chucvus.index');
     }
 }

@@ -32,14 +32,27 @@ class NHANVIEN extends Model
     }
 
     public function chucvu() {
-        return $this->belongsTo(CHUCVU::class, 'MACV');
+        return $this->hasMany(CHUCVU::class, 'MACV');
     }
 
     public function luong() {
-        return $this->belongsTo(LUONG::class, 'BACLUONG');
+        return $this->hasOne(LUONG::class, 'BACLUONG');
     }
 
     public function trinhdohocvan() {
-        return $this->hasMany(TRINHDOHOCVAN::class, 'MATDHV');
+        return $this->belongsTo(TRINHDOHOCVAN::class, 'MATDHV');
+    }
+
+    public function hdld() {
+        return $this->hasMany(HDLD::class, 'MANV');
+    }
+
+    public function getTongLuongAttribute()
+    {
+        $hopDongHienHanh = $this->hdld()->where('NGAYKT', '>=', now())->first();
+        if ($hopDongHienHanh) {
+            return $this->luong->where('MAHD', $hopDongHienHanh->id)->sum('LUONGCB') + $this->luongs->where('MAHD', $hopDongHienHanh->id)->sum('phu_cap');
+        }
+        return 0;
     }
 }

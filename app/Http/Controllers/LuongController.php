@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LUONG;
 use Illuminate\Http\Request;
 
 class LuongController extends Controller
@@ -11,7 +12,8 @@ class LuongController extends Controller
      */
     public function index()
     {
-        //
+        $luongs = Luong::all();
+        return view('luongs.index', compact('luongs'));
     }
 
     /**
@@ -19,7 +21,7 @@ class LuongController extends Controller
      */
     public function create()
     {
-        //
+        return view('luongs.create');
     }
 
     /**
@@ -27,7 +29,13 @@ class LuongController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'LUONGCB' => 'required',
+            'HSLUONG' => 'required',
+            'HSPHUCAP' => 'required'
+        ]);
+        LUONG::create($request->all());
+        return redirect()->route('luongs.index');
     }
 
     /**
@@ -43,7 +51,8 @@ class LuongController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $luong = LUONG::find($id);
+        return view('luongs.edit', compact('luong'));
     }
 
     /**
@@ -51,7 +60,13 @@ class LuongController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'LUONGCB' => 'required',
+            'HSLUONG' => 'required',
+            'HSPHUCAP' => 'required'
+        ]);
+        LUONG::find($id)->update($request->all());
+        return redirect()->route('luongs.index');
     }
 
     /**
@@ -59,6 +74,7 @@ class LuongController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        LUONG::destroy($id);
+        return redirect()->route('luongs.index');
     }
 }

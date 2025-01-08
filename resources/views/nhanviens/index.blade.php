@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+    <a href="{{route('nhanviens.create')}}" class="btn btn-primary">Thêm nhân viên</a>
+    <a href="{{route('create-or-refresh-view')}}" class="btn btn-primary">Tính Lương</a>
+    <a href="{{route('nhanviens.show_nhanvien_chucvu')}}" class="btn btn-primary">Hiển thị chức vụ của nhân viên</a>
+    <div>
+    <a href="{{route('nhanviens.sinhnhat_nv')}}" class="btn btn-primary">Hiển thị sinh nhật nhân viên theo tháng</a>
+    </div>
     <div class="container">
         <div class="row">
             {{--            <div class="col-md-12">--}}
@@ -30,8 +36,8 @@
                     @foreach ($nhanviens as $nhanvien)
                         <div class="col-md-3">
                             <a href="{{route('nhanviens.show',$nhanvien->MANV)}}" style="color: black; text-decoration: none">
-                                <div class="card">
-                                    <img src="{{ asset('storage/' . ($nhanvien->avatar ? $nhanvien->avatar : 'avatars/defaultavt.jpg')) }}" class="card-img-top" alt="Avatar">
+                                <div class="card" style="width: 250px">
+                                    <img src="{{ asset('storage/' . ($nhanvien->avatar ? $nhanvien->avatar : 'avatars/defaultavt.jpg')) }}" class="card-img-top" alt="Avatar"">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $nhanvien->HOTEN }}</h5>
                                         <p class="card-text">
